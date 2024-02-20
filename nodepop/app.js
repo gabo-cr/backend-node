@@ -6,6 +6,8 @@ var logger = require('morgan');
 var helmet = require('helmet');
 var nunjucks = require('nunjucks');
 
+require('./lib/connectMongoose');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
