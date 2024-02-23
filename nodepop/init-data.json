@@ -13,6 +13,20 @@
 			"precio": 50.00,
 			"foto": "iphone.jpg",
 			"tags": [ "lifestyle", "mobile" ]
+		},
+		{
+			"nombre": "Taza",
+			"venta": true,
+			"precio": 6.00,
+			"foto": "taza.jpg",
+			"tags": [ "lifestyle" ]
+		},
+		{
+			"nombre": "Corbata",
+			"venta": false,
+			"precio": 4.00,
+			"foto": "corbata.jpg",
+			"tags": [ "work" ]
 		}
 	]
 }

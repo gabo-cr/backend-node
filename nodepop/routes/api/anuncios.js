@@ -9,20 +9,43 @@ const Anuncio = require('../../models/Anuncio');
  * */
 router.get('/', async function(req, res, next) {
 	try {
-		const filterByName = req.query.name;
-		const skip = req.query.skip;
+		const filterByNombre = req.query.nombre;
+		const filterByVenta = req.query.venta;
+		const filterByPrecio = req.query.precio;
+		const filterByTags = req.query.tags;
+		const start = req.query.start;
 		const limit = req.query.limit;
 		const sort = req.query.sort;
 
 		const filter = {};
-		if (filterByName) {
-			filter.name = filterByName;
+		if (filterByNombre) {
+			filter.nombre = new RegExp('^' + filterByNombre, 'i');
+		}
+		if (filterByVenta) {
+			filter.venta = filterByVenta;
+		}
+		if (filterByPrecio) {
+			const indexSeparador = filterByPrecio.indexOf('-');
+			if (indexSeparador === -1) {
+				filter.precio = filterByPrecio;
+			} else if (indexSeparador === 0) {
+				filter.precio = { '$lte': filterByPrecio.slice(1) };
+			} else if (indexSeparador === (filterByPrecio.length-1)) {
+				filter.precio = { '$gte': filterByPrecio.slice(0, filterByPrecio.length-1) };
+			} else {
+				const min = filterByPrecio.slice(0, indexSeparador);
+				const max = filterByPrecio.slice(indexSeparador + 1);
+				filter.precio = { '$lte': max, '$gte': min };
+			}
+		}
+		if (filterByTags) {
+			filter.tags = { '$in': filterByTags };
 		}
 
 		const anuncios = await Anuncio.find(filter);
-		if (skip) anuncios.skip(skip);
+		if (start) anuncios.skip(start);
 		if (limit) anuncios.limit(limit);
-		if (sort) anuncios.sort(sort)
+		if (sort) anuncios.sort(sort);
 
 		res.json({ results: anuncios });
 	} catch (error) {
