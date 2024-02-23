@@ -1,23 +1,23 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var helmet = require('helmet');
-var nunjucks = require('nunjucks');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const helmet = require('helmet');
+const nunjucks = require('nunjucks');
 
 require('./lib/connectMongoose');
 
-var app = express();
+const app = express();
 
 // view engine setup
 nunjucks.configure('views', {
   autoescape: true,
   express: app
 });
-app.set('view engine', 'njk')
+app.set('view engine', 'njk');
 
-/** 
+/**
  * Middlewares
  */
 app.use(logger('dev'));
@@ -27,24 +27,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 
-/** 
+/**
  * Rutas del API
  */
 app.use('/api/anuncios', require('./routes/api/anuncios'));
 
-/** 
+/**
  * Rutas del Website
  */
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // errores de validación
   if (err.array) {
     const errInfo = err.array({ })[0];
