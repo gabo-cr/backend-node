@@ -4,28 +4,28 @@
 			"nombre": "Bicicleta",
 			"venta": true,
 			"precio": 230.15,
-			"foto": "bici.jpg",
+			"foto": "/images/anuncios/bicicleta.jpg",
 			"tags": [ "lifestyle", "motor" ]
 		},
 		{
-			"nombre": "iPhone 3GS",
+			"nombre": "iPhone 11",
 			"venta": false,
 			"precio": 50.00,
-			"foto": "iphone.jpg",
+			"foto": "/images/anuncios/iphone11.jpg",
 			"tags": [ "lifestyle", "mobile" ]
 		},
 		{
 			"nombre": "Taza",
 			"venta": true,
 			"precio": 6.00,
-			"foto": "taza.jpg",
+			"foto": "/images/anuncios/taza.jpg",
 			"tags": [ "lifestyle" ]
 		},
 		{
 			"nombre": "Corbata",
 			"venta": false,
 			"precio": 4.00,
-			"foto": "corbata.jpg",
+			"foto": "/images/anuncios/corbata.jpg",
 			"tags": [ "work" ]
 		}
 	]
