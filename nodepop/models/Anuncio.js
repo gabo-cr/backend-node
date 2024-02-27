@@ -9,6 +9,11 @@ const anuncioSchema = mongoose.Schema({
   tags: [String]
 });
 
+anuncioSchema.statics.listarTags = function () {
+  const query = Anuncio.distinct('tags');
+  return query.exec();
+};
+
 const Anuncio = mongoose.model('Anuncio', anuncioSchema);
 
 module.exports = Anuncio;
