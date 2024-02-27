@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Anuncio = require('../../models/Anuncio');
+const basicAuth = require('../../lib/basicAuthMiddleware');
 
 /**
  * GET
@@ -64,7 +65,7 @@ router.get('/:id', async function (req, res, next) {
 
     const anuncio = await Anuncio.findById(id);
 
-    res.json({ results: anuncio });
+    res.json({ result: anuncio });
   } catch (error) {
     next(error);
   }
@@ -75,8 +76,9 @@ router.get('/:id', async function (req, res, next) {
  * /api/anuncios
  * body
  * Crea un anuncio.
+ * Requiere autenticación.
  * */
-router.post('/', async function (req, res, next) {
+router.post('/', basicAuth, async function (req, res, next) {
   try {
     const data = req.body;
 
@@ -94,8 +96,9 @@ router.post('/', async function (req, res, next) {
  * /api/anuncios
  * body
  * Actualiza un anuncio.
+ * Requiere autenticación.
  * */
-router.put('/:id', async function (req, res, next) {
+router.put('/:id', basicAuth, async function (req, res, next) {
   try {
     const id = req.params.id;
     const data = req.body;
@@ -112,8 +115,9 @@ router.put('/:id', async function (req, res, next) {
  * DELETE
  * /api/anuncios/<_id>
  * Elimina un anuncio.
+ * Requiere autenticación.
  * */
-router.delete('/:id', async function (req, res, next) {
+router.delete('/:id', basicAuth, async function (req, res, next) {
   try {
     const id = req.params.id;
 
