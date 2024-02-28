@@ -62,7 +62,13 @@
 						<div class="floating busca">Se busca</div>
 						{% endif %}
 						<div class="header">
+							{% if anuncio.foto %}
 							<div class="imagen" style="background-image: url({{anuncio.foto}});"></div>
+							{% else %}
+							<div class="imagen default">
+								<span>Imagen por defecto</span>
+							</div>
+							{% endif %}
 						</div>
 						<div class="content">
 							<div class="title">

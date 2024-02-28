@@ -61,6 +61,18 @@ main form {
   background-size: cover;
   background-position: 50% 50%;
 }
+.anuncio .header .imagen.default {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: #e5e5e5;
+}
+.anuncio .header .imagen.default span {
+  font-size: 2rem;
+  text-align: center;
+  max-width: 160px;
+}
 
 .anuncio .content {
   padding: 0 1rem 2rem;

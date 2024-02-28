@@ -27,6 +27,34 @@
 			"precio": 4.00,
 			"foto": "/images/anuncios/corbata.jpg",
 			"tags": [ "work" ]
+		},
+		{
+			"nombre": "Silla",
+			"venta": false,
+			"precio": 26.00,
+			"foto": "/images/anuncios/silla.jpg",
+			"tags": [ "antique", "housing" ]
+		},
+		{
+			"nombre": "Balón de fútbol",
+			"venta": false,
+			"precio": 10.00,
+			"foto": "/images/anuncios/balon.jpg",
+			"tags": [ "sports" ]
+		},
+		{
+			"nombre": "Raqueta de tenis",
+			"venta": true,
+			"precio": 30.00,
+			"foto": "/images/anuncios/raqueta.jpg",
+			"tags": [ "sports" ]
+		},
+		{
+			"nombre": "Tacones",
+			"venta": true,
+			"precio": 13.00,
+			"foto": "/images/anuncios/tacones.jpg",
+			"tags": [ "lifestyle", "work" ]
 		}
 	]
 }
