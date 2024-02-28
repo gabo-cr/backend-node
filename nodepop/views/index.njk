@@ -13,24 +13,40 @@
 	</header>
 	
 	<main>
-		<form action="/" method="post">
+		<form action="/" method="get">
 			<aside class="filtros">
 				<div class="filtro">
 					<label for="nombre">Nombre</label>
-					<input type="text" name="nombre" id="nombre" placeholder="Nombre">
+					<input type="text" name="nombre" id="nombre" placeholder="Nombre" value="{% if filterByNombre %}{{filterByNombre}}{% endif %}">
+				</div>
+				<div class="filtro">
+					<label for="venta">Tipo de anuncio</label>
+					<select name="venta" id="venta">
+						{% for tipo in tipos %}
+							{% if tipo.value === filterByVenta %}
+								<option value="{{tipo.value}}" selected>{{tipo.label}}</option>
+							{% else %}
+								<option value="{{tipo.value}}">{{tipo.label}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
 				</div>
 				<div class="filtro">
 					<label for="precio">Precio</label>
 					<div class="rango">
-						<input type="number" name="preciomin" id="preciomin" placeholder="Mínimo" min="0">
-						<input type="number" name="preciomax" id="preciomax" placeholder="Máximo" min="0">
+						<input type="number" name="preciomin" id="preciomin" placeholder="Mínimo" min="0" value="{% if filterByPreciomin %}{{filterByPreciomin}}{% endif %}">
+						<input type="number" name="preciomax" id="preciomax" placeholder="Máximo" min="0" value="{% if filterByPreciomax %}{{filterByPreciomax}}{% endif %}">
 					</div>
 				</div>
 				<div class="filtro">
 					<label for="tags">Tags</label>
 					<select name="tags" id="tags" multiple>
 						{% for tag in tags %}
-						<option value="{{tag}}">{{tag | capitalize}}</option>
+							{% if tag in filterByTags %}
+							<option value="{{tag}}" selected>{{tag | capitalize}}</option>
+							{% else %}
+							<option value="{{tag}}">{{tag | capitalize}}</option>
+							{% endif %}
 						{% endfor %}
 					</select>
 				</div>
