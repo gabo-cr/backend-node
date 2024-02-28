@@ -43,10 +43,7 @@ router.get('/', async function (req, res, next) {
       filter.tags = { $in: filterByTags };
     }
 
-    const anuncios = await Anuncio.find(filter);
-    if (start) anuncios.skip(start);
-    if (limit) anuncios.limit(limit);
-    if (sort) anuncios.sort(sort);
+    const anuncios = await Anuncio.listarAnuncios(filter, start, limit, sort);
 
     res.json({ results: anuncios });
   } catch (error) {

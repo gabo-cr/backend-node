@@ -9,6 +9,14 @@ const anuncioSchema = mongoose.Schema({
   tags: [String]
 });
 
+anuncioSchema.statics.listarAnuncios = function (filtro, skip, limit, sort) {
+  const query = Anuncio.find(filtro);
+  query.skip(skip);
+  query.limit(limit);
+  query.sort(sort);
+  return query.exec();
+};
+
 anuncioSchema.statics.listarTags = function () {
   const query = Anuncio.distinct('tags');
   return query.exec();
