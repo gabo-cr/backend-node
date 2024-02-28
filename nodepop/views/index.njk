@@ -13,38 +13,64 @@
 	</header>
 	
 	<main>
-		<section class="anuncios">
-			{% for anuncio in anuncios %}
-			<div class="anuncio">
-				{% if anuncio.venta %}
-				<div class="floating venta">Se vende</div>
-				{% else %}
-				<div class="floating busca">Se busca</div>
-				{% endif %}
-				<div class="header">
-					<div class="imagen" style="background-image: url({{anuncio.foto}});"></div>
+		<form action="/" method="post">
+			<aside class="filtros">
+				<div class="filtro">
+					<label for="nombre">Nombre</label>
+					<input type="text" name="nombre" id="nombre" placeholder="Nombre">
 				</div>
-				<div class="content">
-					<div class="title">
-						<h2>{{anuncio.nombre}}</h2>
+				<div class="filtro">
+					<label for="precio">Precio</label>
+					<div class="rango">
+						<input type="number" name="preciomin" id="preciomin" placeholder="Mínimo" min="0">
+						<input type="number" name="preciomax" id="preciomax" placeholder="Máximo" min="0">
 					</div>
-					<div class="description">
-						<div class="block">
-							<span class="label">Precio:</span>
-							<span class="value">{{anuncio.precio}} euros</span>
+				</div>
+				<div class="filtro">
+					<label for="tags">Tags</label>
+					<select name="tags" id="tags" multiple>
+						{% for tag in tags %}
+						<option value="{{tag}}">{{tag | capitalize}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<button type="submit">Filtrar</button>
+			</aside>
+			<section class="anuncios">
+				<div class="lista">
+					{% for anuncio in anuncios %}
+					<div class="anuncio">
+						{% if anuncio.venta %}
+						<div class="floating venta">Se vende</div>
+						{% else %}
+						<div class="floating busca">Se busca</div>
+						{% endif %}
+						<div class="header">
+							<div class="imagen" style="background-image: url({{anuncio.foto}});"></div>
+						</div>
+						<div class="content">
+							<div class="title">
+								<h2>{{anuncio.nombre}}</h2>
+							</div>
+							<div class="description">
+								<div class="block">
+									<span class="label">Precio:</span>
+									<span class="value">{{anuncio.precio | float}} euros</span>
+								</div>
+							</div>
+						</div>
+						<div class="footer">
+							<div class="tags">
+								{% for tag in anuncio.tags %}
+								<span class="tag">{{tag}}</span>
+								{% endfor %}
+							</div>
 						</div>
 					</div>
+					{% endfor %}
 				</div>
-				<div class="footer">
-					<div class="tags">
-						{% for tag in anuncio.tags %}
-						<span class="tag">{{tag}}</span>
-						{% endfor %}
-					</div>
-				</div>
-			</div>
-			{% endfor %}
-		</section>
+			</section>
+		</form>
 	</main>
 </body>
 </html>

@@ -20,12 +20,17 @@ header h1 {
 }
 
 main {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
 }
+main form {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 2rem;
+}
 
-.anuncios {
+.anuncios .lista {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
@@ -78,4 +83,38 @@ main {
   border: 1px solid #ccc;
   padding: 2px 7px;
   border-radius: 15px;
+}
+
+.filtros .filtro {
+  margin-bottom: 1.2rem;
+}
+.filtros .filtro label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.filtros .filtro input, .filtros .filtro select {
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+  margin: 5px 0;
+}
+.filtros button {
+  font-size: 1rem;
+  padding: 8px 14px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
+  background-color: #e5e5e5;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+}
+.filtros button:hover {
+  background-color: #ccc;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 }

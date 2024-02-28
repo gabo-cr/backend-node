@@ -10,10 +10,12 @@ router.get('/', async function (req, res, next) {
   const sort = 'nombre';
 
   const anuncios = await Anuncio.listarAnuncios(filter, start, limit, sort);
+  const tags = await Anuncio.listarTags();
 
   const context = {
     title: 'Nodepop',
-    anuncios
+    anuncios,
+    tags
   };
   res.render('index', context);
 });
