@@ -3,10 +3,48 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Nodepop</title>
+	<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+	<link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
-	<h1>{{title}}</h1>
+	<header>
+		<h1>{{title}}</h1>
+	</header>
 	
+	<main>
+		<section class="anuncios">
+			{% for anuncio in anuncios %}
+			<div class="anuncio">
+				{% if anuncio.venta %}
+				<div class="floating venta">Se vende</div>
+				{% else %}
+				<div class="floating busca">Se busca</div>
+				{% endif %}
+				<div class="header">
+					<div class="imagen" style="background-image: url({{anuncio.foto}});"></div>
+				</div>
+				<div class="content">
+					<div class="title">
+						<h2>{{anuncio.nombre}}</h2>
+					</div>
+					<div class="description">
+						<div class="block">
+							<span class="label">Precio:</span>
+							<span class="value">{{anuncio.precio}} euros</span>
+						</div>
+					</div>
+				</div>
+				<div class="footer">
+					<div class="tags">
+						{% for tag in anuncio.tags %}
+						<span class="tag">{{tag}}</span>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</section>
+	</main>
 </body>
 </html>

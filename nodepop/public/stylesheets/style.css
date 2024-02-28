@@ -1,8 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
 }
 
-a {
-  color: #00B7FF;
+h1, h2, h3, h4, h5, h6 {
+  font-family: "EB Garamond", serif;
+}
+
+header {
+  padding: 3rem 1rem;
+}
+
+header h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.anuncios {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.anuncio {
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.anuncio .floating {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #fff;
+  padding: 5px 12px;
+}
+.anuncio .floating.venta {
+  background-color: #008507;
+}
+.anuncio .floating.busca {
+  background-color: #910000;
+}
+
+.anuncio .header .imagen {
+  width: 100%;
+  min-height: 250px;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.anuncio .content {
+  padding: 0 1rem 2rem;
+}
+.anuncio .content .title h2 {
+  margin: 1rem 0;
+  font-size: 1.5rem;
+}
+.anuncio .content .block span {
+  font-size: 1rem;
+}
+.anuncio .content .block .label {
+  font-weight: 600;
+}
+
+.anuncio .footer {
+  padding: 0 1rem 1rem;
+}
+.anuncio .footer .tag {
+  border: 1px solid #ccc;
+  padding: 2px 7px;
+  border-radius: 15px;
 }
