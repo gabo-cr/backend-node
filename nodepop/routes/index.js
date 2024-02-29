@@ -2,6 +2,23 @@ const express = require('express');
 const router = express.Router();
 const Anuncio = require('../models/Anuncio');
 
+const tipos = [
+  { value: '', label: 'Todos' },
+  { value: 'venta', label: 'Se vende' },
+  { value: 'busca', label: 'Se busca' }
+];
+
+const ordenes = [
+  { value: 'nombre', label: 'Nombre' },
+  { value: 'precio', label: 'Precio' },
+  { value: 'venta', label: 'Tipo de anuncio' }
+];
+
+const direcciones = [
+  { value: 'asc', label: 'Ascendente' },
+  { value: 'desc', label: 'Descendente' }
+];
+
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   const page = 0;
@@ -10,14 +27,10 @@ router.get('/', async function (req, res, next) {
   const limit = 6;
   const start = limit * page;
   const sort = 'nombre';
+  const dir = 'asc';
 
   const anuncios = await Anuncio.listarAnuncios(filter, start, limit, sort);
   const tags = await Anuncio.listarTags();
-  const tipos = [
-    { value: '', label: 'Todos' },
-    { value: 'venta', label: 'Se vende' },
-    { value: 'busca', label: 'Se busca' }
-  ];
 
   const allAnunciosCount = await Anuncio.countDocuments();
 
@@ -26,7 +39,11 @@ router.get('/', async function (req, res, next) {
     anuncios,
     tags,
     tipos,
+    ordenes,
+    direcciones,
     filterByTags: [],
+    sort,
+    dir,
     pages: Math.ceil(allAnunciosCount / limit),
     page
   };
@@ -40,11 +57,13 @@ router.post('/', async function (req, res, next) {
   const filterByPreciomax = req.body.preciomax;
   const filterByTags = req.body.tags;
   let page = req.body.page ? req.body.page : 0;
+  const sort = req.body.sort;
+  const dir = req.body.dir;
 
   const filter = {};
   const limit = 6;
   let start = limit * page;
-  const sort = 'nombre';
+  const sortingBy = dir === 'asc' ? sort : `-${sort}`;
 
   if (filterByNombre) {
     filter.nombre = new RegExp('^' + filterByNombre, 'i');
@@ -69,24 +88,23 @@ router.post('/', async function (req, res, next) {
     page = 0;
   }
 
-  const anuncios = await Anuncio.listarAnuncios(filter, start, limit, sort);
+  const anuncios = await Anuncio.listarAnuncios(filter, start, limit, sortingBy);
   const tags = await Anuncio.listarTags();
-  const tipos = [
-    { value: '', label: 'Todos' },
-    { value: 'venta', label: 'Se vende' },
-    { value: 'busca', label: 'Se busca' }
-  ];
 
   const context = {
     title: 'Nodepop',
     anuncios,
     tags,
     tipos,
+    ordenes,
+    direcciones,
     filterByNombre,
     filterByPreciomin,
     filterByPreciomax,
     filterByTags: filterByTags || [],
     filterByVenta,
+    sort,
+    dir,
     pages: Math.ceil(allAnunciosCount / limit),
     page
   };

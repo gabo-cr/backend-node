@@ -50,7 +50,31 @@
 						{% endfor %}
 					</select>
 				</div>
-				<button type="submit">Filtrar</button>
+				<div class="filtro">
+					<label for="sort">Ordenar por</label>
+					<select name="sort" id="sort">
+						{% for orden in ordenes %}
+							{% if orden.value === sort %}
+								<option value="{{orden.value}}" selected>{{orden.label}}</option>
+							{% else %}
+								<option value="{{orden.value}}">{{orden.label}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				</div>
+				<div class="filtro">
+					<label for="dir">Orden</label>
+					<select name="dir" id="dir">
+						{% for direccion in direcciones %}
+							{% if direccion.value === dir %}
+								<option value="{{direccion.value}}" selected>{{direccion.label}}</option>
+							{% else %}
+								<option value="{{direccion.value}}">{{direccion.label}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				</div>
+				<button type="submit">Filtrar y ordenar</button>
 			</aside>
 			<section class="anuncios">
 				<div class="lista">
