@@ -100,7 +100,7 @@ router.put('/:id', basicAuth, async function (req, res, next) {
     const id = req.params.id;
     const data = req.body;
 
-    const anuncioActualizado = Anuncio.findByIdAndUpdate(id, data, { new: true });
+    const anuncioActualizado = await Anuncio.findByIdAndUpdate(id, data, { new: true });
 
     res.json({ result: anuncioActualizado });
   } catch (error) {
