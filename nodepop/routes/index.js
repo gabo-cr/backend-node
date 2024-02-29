@@ -9,10 +9,11 @@ router.get('/', async function (req, res, next) {
   const filterByPreciomin = req.query.preciomin;
   const filterByPreciomax = req.query.preciomax;
   const filterByTags = req.query.tags;
+  const page = req.query.page;
 
   const filter = {};
-  const start = 0;
-  const limit = 0;
+  const limit = 6;
+  const start = limit * page;
   const sort = 'nombre';
 
   if (filterByNombre) {
@@ -35,10 +36,12 @@ router.get('/', async function (req, res, next) {
   const anuncios = await Anuncio.listarAnuncios(filter, start, limit, sort);
   const tags = await Anuncio.listarTags();
   const tipos = [
-    { value: '', label: 'Seleccionar el tipo' },
+    { value: '', label: 'Todos' },
     { value: 'venta', label: 'Se vende' },
     { value: 'busca', label: 'Se busca' }
   ];
+
+  const len = await Anuncio.countDocuments();
 
   const context = {
     title: 'Nodepop',
@@ -49,7 +52,9 @@ router.get('/', async function (req, res, next) {
     filterByPreciomin,
     filterByPreciomax,
     filterByTags: filterByTags || [],
-    filterByVenta
+    filterByVenta,
+    pages: Math.ceil(len / limit),
+    page
   };
   res.render('index', context);
 });

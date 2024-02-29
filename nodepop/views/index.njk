@@ -91,6 +91,13 @@
 					</div>
 					{% endfor %}
 				</div>
+				<div class="paginacion">
+					{% for p in range(0, pages) %}
+					<div class="pagina{% if p == page %} active{% endif %}">
+						<button type="submit" name="page" value="{{p}}">{{p+1}}</button>
+					</div>
+					{% endfor %}
+				</div>
 			</section>
 		</form>
 	</main>
