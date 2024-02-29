@@ -100,7 +100,11 @@
 							</div>
 							<div class="description">
 								<div class="block">
+									{% if anuncio.venta %}
 									<span class="label">Precio:</span>
+									{% else %}
+									<span class="label">Dispuesto a pagar:</span>
+									{% endif %}
 									<span class="value">{{anuncio.precio | float}} euros</span>
 								</div>
 							</div>
