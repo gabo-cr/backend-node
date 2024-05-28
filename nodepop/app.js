@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const helmet = require('helmet');
 const nunjucks = require('nunjucks');
+const jwtAuth = require('./lib/jwtAuthMiddleware');
 
 require('./lib/connectMongoose');
 
@@ -31,8 +32,8 @@ app.use(helmet());
  * Rutas del API
  */
 app.use('/api', require('./routes/api/index'));
-app.use('/api/anuncios', require('./routes/api/anuncios'));
-app.use('/api/tags', require('./routes/api/tags'));
+app.use('/api/anuncios', jwtAuth, require('./routes/api/anuncios'));
+app.use('/api/tags', jwtAuth, require('./routes/api/tags'));
 
 /**
  * Rutas del Website
