@@ -19,8 +19,8 @@ async function main () {
     process.exit();
   }
 
-  await initAnuncios();
   await initUsuarios();
+  await initAnuncios();
 
   connection.close();
 }
@@ -30,8 +30,14 @@ async function initAnuncios () {
   const deleted = await Anuncio.deleteMany();
   console.log(`Eliminados ${deleted.deletedCount} anuncios.`);
 
+  const users = await Promise.all([
+    Usuario.findOne({ email: 'user@example.com' }),
+    Usuario.findOne({ email: 'gabriel@example.com' })
+  ]);
+
   // inserto los nuevos anuncios desde el archivo init-data.json
-  const inserted = await Anuncio.insertMany(initData.anuncios);
+  const anuncios = initData.anuncios.map(anuncio => ({ ...anuncio, owner: users[Math.floor(Math.random() * 2)]._id }));
+  const inserted = await Anuncio.insertMany(anuncios);
   console.log(`Creados ${inserted.length} anuncios.`);
 }
 

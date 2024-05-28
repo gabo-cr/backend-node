@@ -6,7 +6,8 @@ const anuncioSchema = mongoose.Schema({
   venta: { type: Boolean },
   precio: { type: Number, required: true, min: 0.0 },
   foto: { type: String },
-  tags: [String]
+  tags: [String],
+  owner: { ref: 'Usuario', type: mongoose.Schema.ObjectId }
 });
 
 anuncioSchema.statics.listarAnuncios = function (filtro, skip, limit, sort) {
