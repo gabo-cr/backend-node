@@ -9,6 +9,7 @@ const router = express.Router();
 router.get('/', async function (req, res, next) {
   try {
     const apis = [
+      '/api/authenticate/',
       '/api/anuncios/',
       '/api/tags/'
     ];

@@ -32,6 +32,7 @@ app.use(helmet());
  * Rutas del API
  */
 app.use('/api', require('./routes/api/index'));
+app.use('/api/authenticate', require('./routes/api/authenticate'));
 app.use('/api/anuncios', jwtAuth, require('./routes/api/anuncios'));
 app.use('/api/tags', jwtAuth, require('./routes/api/tags'));
 
