@@ -42,7 +42,7 @@ app.use('/api/tags', jwtAuth, require('./routes/api/tags'));
  */
 app.use(i18n.init);
 app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users'));
+app.use('/change-locale', require('./routes/locale'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -9,7 +9,13 @@
 </head>
 <body>
 	<header>
-		<h1><a href="/">{{title}}</a></h1>
+		<h1>{{title}}</h1>
+		<div>
+			<span>{{ __('Elige tu idioma preferido') }}:</span>
+			{% for locale in getLocales() %}
+				<a href="/change-locale/{{locale}}">{{locale}}</a>
+			{% endfor %}
+		</div>
 	</header>
 	
 	<main>
