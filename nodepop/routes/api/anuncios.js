@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Anuncio = require('../../models/Anuncio');
-const basicAuth = require('../../lib/basicAuthMiddleware');
 
 /**
  * GET
@@ -10,15 +9,22 @@ const basicAuth = require('../../lib/basicAuthMiddleware');
  * */
 router.get('/', async function (req, res, next) {
   try {
+    const userId = req.apiUserId;
+
+    // filtros
     const filterByNombre = req.query.nombre;
     const filterByVenta = req.query.venta;
     const filterByPrecio = req.query.precio;
     const filterByTags = req.query.tags;
+
+    // paginación
     const start = req.query.start;
     const limit = req.query.limit;
+
+    // ordenamiento
     const sort = req.query.sort;
 
-    const filter = {};
+    const filter = { owner: userId };
     if (filterByNombre) {
       filter.nombre = new RegExp('^' + filterByNombre, 'i');
     }
@@ -58,9 +64,10 @@ router.get('/', async function (req, res, next) {
  * */
 router.get('/:id', async function (req, res, next) {
   try {
+    const userId = req.apiUserId;
     const id = req.params.id;
 
-    const anuncio = await Anuncio.findById(id);
+    const anuncio = await Anuncio.find({ _id: id, owner: userId });
 
     res.json({ result: anuncio });
   } catch (error) {
@@ -75,11 +82,12 @@ router.get('/:id', async function (req, res, next) {
  * Crea un anuncio.
  * Requiere autenticación.
  * */
-router.post('/', basicAuth, async function (req, res, next) {
+router.post('/', async function (req, res, next) {
   try {
+    const userId = req.apiUserId;
     const data = req.body;
 
-    const anuncio = new Anuncio(data);
+    const anuncio = new Anuncio({ ...data, owner: userId });
     const anuncioGuardado = await anuncio.save();
 
     res.json({ result: anuncioGuardado });
@@ -95,12 +103,13 @@ router.post('/', basicAuth, async function (req, res, next) {
  * Actualiza un anuncio.
  * Requiere autenticación.
  * */
-router.put('/:id', basicAuth, async function (req, res, next) {
+router.put('/:id', async function (req, res, next) {
   try {
+    const userId = req.apiUserId;
     const id = req.params.id;
     const data = req.body;
 
-    const anuncioActualizado = await Anuncio.findByIdAndUpdate(id, data, { new: true });
+    const anuncioActualizado = await Anuncio.findOneAndUpdate({ _id: id, owner: userId }, data, { new: true });
 
     res.json({ result: anuncioActualizado });
   } catch (error) {
@@ -114,11 +123,12 @@ router.put('/:id', basicAuth, async function (req, res, next) {
  * Elimina un anuncio.
  * Requiere autenticación.
  * */
-router.delete('/:id', basicAuth, async function (req, res, next) {
+router.delete('/:id', async function (req, res, next) {
   try {
+    const userId = req.apiUserId;
     const id = req.params.id;
 
-    await Anuncio.deleteOne({ _id: id });
+    await Anuncio.deleteOne({ _id: id, owner: userId });
 
     res.json();
   } catch (error) {
