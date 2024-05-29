@@ -2,22 +2,22 @@ const express = require('express');
 const router = express.Router();
 const Anuncio = require('../models/Anuncio');
 
-const tipos = [
-  { value: '', label: 'Todos' },
-  { value: 'venta', label: 'Se vende' },
-  { value: 'busca', label: 'Se busca' }
-];
+const getTipos = (req) => ([
+  { value: '', label: req.__('Todos') },
+  { value: 'venta', label: req.__('Se vende') },
+  { value: 'busca', label: req.__('Se busca') }
+]);
 
-const ordenes = [
-  { value: 'nombre', label: 'Nombre' },
-  { value: 'precio', label: 'Precio' },
-  { value: 'venta', label: 'Tipo de anuncio' }
-];
+const getOrdenes = (req) => ([
+  { value: 'nombre', label: req.__('Nombre') },
+  { value: 'precio', label: req.__('Precio') },
+  { value: 'venta', label: req.__('Tipo de anuncio') }
+]);
 
-const direcciones = [
-  { value: 'asc', label: 'Ascendente' },
-  { value: 'desc', label: 'Descendente' }
-];
+const getDirecciones = (req) => ([
+  { value: 'asc', label: req.__('Ascendente') },
+  { value: 'desc', label: req.__('Descendente') }
+]);
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
@@ -31,6 +31,9 @@ router.get('/', async function (req, res, next) {
 
   const anuncios = await Anuncio.listarAnuncios(filter, start, limit, sort);
   const tags = await Anuncio.listarTags();
+  const tipos = getTipos(req);
+  const ordenes = getOrdenes(req);
+  const direcciones = getDirecciones(req);
 
   const allAnunciosCount = await Anuncio.countDocuments();
 
@@ -90,6 +93,9 @@ router.post('/', async function (req, res, next) {
 
   const anuncios = await Anuncio.listarAnuncios(filter, start, limit, sortingBy);
   const tags = await Anuncio.listarTags();
+  const tipos = getTipos(req);
+  const ordenes = getOrdenes(req);
+  const direcciones = getDirecciones(req);
 
   const context = {
     title: 'Nodepop',

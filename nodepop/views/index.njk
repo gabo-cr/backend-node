@@ -16,11 +16,11 @@
 		<form action="/" method="post">
 			<aside class="filtros">
 				<div class="filtro">
-					<label for="nombre">Nombre</label>
-					<input type="text" name="nombre" id="nombre" placeholder="Nombre" value="{% if filterByNombre %}{{filterByNombre}}{% endif %}">
+					<label for="nombre">{{ __('Nombre') }}</label>
+					<input type="text" name="nombre" id="nombre" placeholder="{{ __('Nombre') }}" value="{% if filterByNombre %}{{filterByNombre}}{% endif %}">
 				</div>
 				<div class="filtro">
-					<label for="venta">Tipo de anuncio</label>
+					<label for="venta">{{ __('Tipo de anuncio') }}</label>
 					<select name="venta" id="venta">
 						{% for tipo in tipos %}
 							{% if tipo.value === filterByVenta %}
@@ -32,14 +32,14 @@
 					</select>
 				</div>
 				<div class="filtro">
-					<label for="precio">Precio</label>
+					<label for="precio">{{ __('Precio') }}</label>
 					<div class="rango">
-						<input type="number" name="preciomin" id="preciomin" placeholder="Mínimo" min="0" value="{% if filterByPreciomin %}{{filterByPreciomin}}{% endif %}">
-						<input type="number" name="preciomax" id="preciomax" placeholder="Máximo" min="0" value="{% if filterByPreciomax %}{{filterByPreciomax}}{% endif %}">
+						<input type="number" name="preciomin" id="preciomin" placeholder="{{ __('Mínimo') }}" min="0" value="{% if filterByPreciomin %}{{filterByPreciomin}}{% endif %}">
+						<input type="number" name="preciomax" id="preciomax" placeholder="{{ __('Máximo') }}" min="0" value="{% if filterByPreciomax %}{{filterByPreciomax}}{% endif %}">
 					</div>
 				</div>
 				<div class="filtro">
-					<label for="tags">Tags</label>
+					<label for="tags">{{ __('Etiquetas') }}</label>
 					<select name="tags" id="tags" multiple>
 						{% for tag in tags %}
 							{% if tag in filterByTags %}
@@ -51,7 +51,7 @@
 					</select>
 				</div>
 				<div class="filtro">
-					<label for="sort">Ordenar por</label>
+					<label for="sort">{{ __('Ordenar por') }}</label>
 					<select name="sort" id="sort">
 						{% for orden in ordenes %}
 							{% if orden.value === sort %}
@@ -63,7 +63,7 @@
 					</select>
 				</div>
 				<div class="filtro">
-					<label for="dir">Orden</label>
+					<label for="dir">{{ __('Orden') }}</label>
 					<select name="dir" id="dir">
 						{% for direccion in direcciones %}
 							{% if direccion.value === dir %}
@@ -74,23 +74,23 @@
 						{% endfor %}
 					</select>
 				</div>
-				<button type="submit">Filtrar y ordenar</button>
+				<button type="submit">{{ __('Filtrar y ordenar') }}</button>
 			</aside>
 			<section class="anuncios">
 				<div class="lista">
 					{% for anuncio in anuncios %}
 					<div class="anuncio">
 						{% if anuncio.venta %}
-						<div class="floating venta">Se vende</div>
+						<div class="floating venta">{{ __('Se vende') }}</div>
 						{% else %}
-						<div class="floating busca">Se busca</div>
+						<div class="floating busca">{{ __('Se busca') }}</div>
 						{% endif %}
 						<div class="header">
 							{% if anuncio.foto %}
 							<div class="imagen" style="background-image: url({{anuncio.foto}});"></div>
 							{% else %}
 							<div class="imagen default">
-								<span>Imagen por defecto</span>
+								<span>{{ __('Imagen por defecto') }}</span>
 							</div>
 							{% endif %}
 						</div>
@@ -101,9 +101,9 @@
 							<div class="description">
 								<div class="block">
 									{% if anuncio.venta %}
-									<span class="label">Precio:</span>
+									<span class="label">{{ __('Precio') }}:</span>
 									{% else %}
-									<span class="label">Dispuesto a pagar:</span>
+									<span class="label">{{ __('Dispuesto a pagar') }}:</span>
 									{% endif %}
 									<span class="value">{{anuncio.precio | float}} euros</span>
 								</div>
