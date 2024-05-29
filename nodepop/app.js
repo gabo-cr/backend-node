@@ -6,6 +6,7 @@ const logger = require('morgan');
 const helmet = require('helmet');
 const nunjucks = require('nunjucks');
 const jwtAuth = require('./lib/jwtAuthMiddleware');
+const i18n = require('./lib/i18nConfig');
 
 require('./lib/connectMongoose');
 
@@ -39,6 +40,7 @@ app.use('/api/tags', jwtAuth, require('./routes/api/tags'));
 /**
  * Rutas del Website
  */
+app.use(i18n.init);
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 
