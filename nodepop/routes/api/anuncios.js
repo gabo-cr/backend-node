@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Anuncio = require('../../models/Anuncio');
+const upload = require('../../lib/publicUploadConfig');
 
 /**
  * GET
@@ -82,12 +83,14 @@ router.get('/:id', async function (req, res, next) {
  * Crea un anuncio.
  * Requiere autenticación.
  * */
-router.post('/', async function (req, res, next) {
+router.post('/', upload.single('foto'), async function (req, res, next) {
   try {
     const userId = req.apiUserId;
     const data = req.body;
 
-    const anuncio = new Anuncio({ ...data, owner: userId });
+    const foto = req.file;
+
+    const anuncio = new Anuncio({ ...data, owner: userId, foto: foto.filename });
     const anuncioGuardado = await anuncio.save();
 
     res.json({ result: anuncioGuardado });
