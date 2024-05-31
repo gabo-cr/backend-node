@@ -1,6 +1,6 @@
 # Bootcamp KeepCoding
 
-## Módulo: Backend Avanzado con Node.js y MongoDB
+## Módulos: Backend Inicial y Avanzado con Node.js y MongoDB
 
 Este repositorio contiene la solución al proyecto propuesto en los módulos de Backend y Backend Avanzado con Node.js y MongoDB, que consiste en la creación de una aplicación web para un servicio de venta y búsqueda de artículos de segunda mano, que llamaremos Nodepop.
 
