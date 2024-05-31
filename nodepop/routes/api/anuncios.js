@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Anuncio = require('../../models/Anuncio');
 const upload = require('../../lib/publicUploadConfig');
+const { Requester } = require('cote');
 
 /**
  * GET
@@ -92,6 +93,15 @@ router.post('/', upload.single('foto'), async function (req, res, next) {
 
     const anuncio = new Anuncio({ ...data, owner: userId, foto: foto.filename });
     const anuncioGuardado = await anuncio.save();
+
+    const requester = new Requester({ name: 'nodepop-app' });
+    const evento = {
+      type: 'create-thumbnail',
+      filename: foto.filename
+    };
+    requester.send(evento, result => {
+      console.log(Date.now(), 'nodepop-app obtiene el resultado:', result);
+    });
 
     res.json({ result: anuncioGuardado });
   } catch (error) {
