@@ -1,14 +1,22 @@
 # Bootcamp KeepCoding
 
-## Módulo: Backend con Node.js y MongoDB
+## Módulo: Backend Avanzado con Node.js y MongoDB
 
-Este repositorio contiene la solución al proyecto propuesto en este módulo, que consiste en la creación de una aplicación web para un servicio de venta y búsqueda de artículos de segunda mano, que llamaremos Nodepop. La aplicación debe exponer un API y mostrar una página con los anuncios de los artículos.
+Este repositorio contiene la solución al proyecto propuesto en los módulos de Backend y Backend Avanzado con Node.js y MongoDB, que consiste en la creación de una aplicación web para un servicio de venta y búsqueda de artículos de segunda mano, que llamaremos Nodepop.
+
+La aplicación:
+
+- Expone un API, protegido por autenticación JWT.
+- Muestra una página internacionalizada con los anuncios de los artículos y sus filtros.
+- Se conecta con un microservicio para crear thumbnails.
 
 ## Contenido
 
-El repositorio contiene el proyecto `nodepop`, desarrollado en Node.js, utilizando [Express.js](https://expressjs.com/en/starter/generator.html). Como base de datos utiliza [MongoDB](https://www.mongodb.com/try/download/community), y como motor de templates, [Nunjucks](https://mozilla.github.io/nunjucks/).
+El repositorio contiene el proyecto principal `nodepop`, desarrollado en Node.js, utilizando [Express.js](https://expressjs.com/en/starter/generator.html). Como base de datos utiliza [MongoDB](https://www.mongodb.com/try/download/community), y como motor de templates, [Nunjucks](https://mozilla.github.io/nunjucks/).
 
-## Instalación
+El repositorio también contiene el microservicio `thumbnail-creator`, desarrollado en Node.js.
+
+## Instalación de Nodepop
 
 Una vez descargado el repositorio, se debe colocar dentro de la carpeta nodepop e instalar las dependencias:
 
@@ -27,7 +35,7 @@ En la terminal, aparecerá un mensaje preguntando si desea continuar, ya que se 
 
 ## Development
 
-Para correr la aplicación web en un entorno de desarrollo:
+Para correr nodepop en un entorno de desarrollo:
 
 ```javascript
 npm run dev
@@ -37,23 +45,70 @@ La aplicación corre en [http://localhost:3000/](http://localhost:3000/).
 
 El API se puede visualizar en [http://localhost:3000/api](http://localhost:3000/api).
 
-## API
+## Instalación de Thumbnail Creator
 
-### Anuncios
-
-#### Lista de anuncios
-
-GET /api/anuncios
-
-Autenticación:
+Una vez descargado el repositorio, se debe colocar dentro de la carpeta thumbnail-creator e instalar las dependencias:
 
 ```javascript
-No requiere autenticación.
+cd thumbnail-creator
+npm install
 ```
 
-Params:
+Para correr thumbnail-creator en la consola:
 
 ```javascript
+node app.js
+```
+
+Cada vez que se crea un anuncio y se sube una foto, el microservicio de `thumbnail-creator` creará un thumbnail de la imagen original y lo guardará en la carpeta `nodepop/public/images/anuncios/thumbnails`.
+
+## API
+
+El API contiene los siguientes endpoints:
+
+- /api/authenticate
+- /api/anuncios
+- /api/tags
+
+El API de anuncios y tags están protegidos y requieren autenticación.
+
+## Autenticación
+
+Para el uso de los endpoints protegidos, se debe hacer un request al API de autenticación:
+
+```javascript
+POST /api/authenticate
+
+BODY (JSON):
+{
+    "email": "user@example.com",
+    "password": "1234"
+}
+
+RESPONSE 200:
+{
+    "tokenJWT": "json-web-token-del-usuario-autenticado"
+}
+```
+
+Una vez obtenido el token, se debe enviar en cada request en el header:
+
+```javascript
+KEY: Authorization
+VALUE: json-web-token-del-usuario-autenticado
+```
+
+## API de Anuncios
+
+### Lista de anuncios
+
+- **Método:** GET
+- **URL:** /api/anuncios
+- **Autenticación:** Requiere autenticación
+
+```javascript
+URL PARAMS:
+
 ?nombre=bici            // Nombre que empiece con 'bici'
 
 ?venta=true             // Anuncios de artículos que se venden
@@ -76,9 +131,10 @@ Params:
 ?sort=-precio           // Ordena la respuesta por precio de forma descendente
 ```
 
-Respuesta 200:
+**Respuestas:**
 
-```json
+```javascript
+RESPONSE 200:
 {
     "results": [
         {
@@ -86,123 +142,87 @@ Respuesta 200:
             "nombre": "Bicicleta",
             "venta": true,
             "precio": 230.15,
-            "foto": "/images/anuncios/bicicleta.jpg",
+            "foto": "bicicleta.jpg",
             "tags": [
                 "lifestyle",
                 "motor"
             ],
-            "__v": 0
-        },
-        {
-            "_id": "65dfb10bd7fff4beb45a6c62",
-            "nombre": "iPhone 11",
-            "venta": false,
-            "precio": 50,
-            "foto": "/images/anuncios/iphone11.jpg",
-            "tags": [
-                "lifestyle",
-                "mobile"
-            ],
-            "__v": 0
+            "owner": "665a0292de9cc06bd3fc8ce6"
         }
     ]
 }
 ```
 
-#### Anuncio individual
+### Anuncio individual
 
-GET /api/anuncios/:id
-
-Autenticación:
-
-```javascript
-No requiere autenticación.
-```
-
-Params:
+- **Método:** GET
+- **URL:** /api/anuncios/:id
+- **Autenticación:** Requiere autenticación
 
 ```javascript
-No necesita enviar ningún parámetro en la URL.
-```
-
-Respuesta 200:
-
-```json
+RESPONSE 200:
 {
     "result": {
         "_id": "65dfb10bd7fff4beb45a6c62",
         "nombre": "iPhone 11",
         "venta": false,
         "precio": 50,
-        "foto": "/images/anuncios/iphone11.jpg",
+        "foto": "iphone11.jpg",
         "tags": [
             "lifestyle",
             "mobile"
         ],
-        "__v": 0
+        "owner": "665a0292de9cc06bd3fc8ce6"
     }
 }
 ```
 
-#### Crear un anuncio
+### Crear un anuncio
 
-POST /api/anuncios
-
-Autenticación:
+- **Método:** POST
+- **URL:** /api/anuncios
+- **Autenticación:** Requiere autenticación
 
 ```javascript
-Basic Auth
-username: admin
-password: 1234
+BODY (form-data):
+
+KEY         TYPE        EXAMPLE
+nombre      text        Nuevo producto
+venta       text        true
+precio      text        12.56
+tags        text        mobile
+tags        text        motor
+foto        file        mi-imagen.jpg
 ```
 
-Body (JSON):
+**Respuestas:**
 
-```json
-{
-    "nombre": "Nuevo producto",
-    "venta": true,
-    "precio": 102.53,
-    "tags": [
-        "mobile",
-        "motor"
-    ]
-}
-```
-
-Respuesta 200:
-
-```json
+```javascript
+RESPONSE 200:
 {
     "result": {
         "nombre": "Nuevo producto",
         "venta": true,
-        "precio": 102.53,
+        "precio": 12.56,
+        "foto": "foto-1717175501408-mi-imagen.jpg",
         "tags": [
             "mobile",
             "motor"
         ],
         "_id": "65e0dcd766a37c42703a6627",
-        "__v": 0
+        "owner": "665a0292de9cc06bd3fc8ce6"
     }
 }
 ```
 
-#### Actualizar un anuncio
+### Actualizar un anuncio
 
-PUT /api/anuncios/:id
-
-Autenticación:
+- **Método:** PUT
+- **URL:** /api/anuncios/:id
+- **Autenticación:** Requiere autenticación
 
 ```javascript
-Basic Auth
-username: admin
-password: 1234
-```
-
-Body (JSON):
-
-```json
+BODY (JSON):
 {
     "nombre": "Nuevo nombre",
     "venta": true,
@@ -213,9 +233,10 @@ Body (JSON):
 }
 ```
 
-Respuesta 200:
+**Respuestas:**
 
-```json
+```javascript
+RESPONSE 200:
 {
     "result": {
         "_id": "65e0dcd766a37c42703a6627",
@@ -224,57 +245,32 @@ Respuesta 200:
         "precio": 105.11,
         "tags": [
             "mobile"
-        ],
-        "__v": 0
+        ]
     }
 }
 ```
 
-#### Eliminar un anuncio
+### Eliminar un anuncio
 
-DELETE /api/anuncios/:id
-
-Autenticación:
-
-```javascript
-Basic Auth
-username: admin
-password: 1234
-```
-
-Body (JSON):
+- **Método:** DELETE
+- **URL:** /api/anuncios/:id
+- **Autenticación:** Requiere autenticación
 
 ```javascript
-No necesita enviar ningún elemento.
-```
-
-Respuesta 200:
-
-```javascript
+RESPONSE 200:
 No devuelve ningún elemento, solo el status 200.
 ```
 
-### Tags
+## API de Tags
 
-#### Lista de tags
+### Lista de tags
 
-GET /api/tags
-
-Autenticación:
-
-```javascript
-No requiere autenticación.
-```
-
-Params:
+- **Método:** GET
+- **URL:** /api/tags
+- **Autenticación:** Requiere autenticación
 
 ```javascript
-No necesita enviar ningún parámetro en la URL.
-```
-
-Respuesta 200:
-
-```json
+RESPONSE 200:
 {
     "results": [
         "antique",
