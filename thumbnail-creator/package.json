@@ -1,0 +1,15 @@
+{
+  "name": "thumbnail-creator",
+  "version": "1.0.0",
+  "description": "Thumbnail creator microservice",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gabriel Chávez Riera",
+  "license": "ISC",
+  "dependencies": {
+    "cote": "^1.0.3",
+    "jimp": "^0.22.12"
+  }
+}
