@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 // Schema de un anuncio
 const anuncioSchema = mongoose.Schema({
-  nombre: { type: String, required: true, unique: true },
-  venta: { type: Boolean },
-  precio: { type: Number, required: true, min: 0.0 },
+  nombre: { type: String, required: true, unique: true, index: true },
+  venta: { type: Boolean, index: true },
+  precio: { type: Number, required: true, min: 0.0, index: true },
   foto: { type: String },
-  tags: [String],
-  owner: { ref: 'Usuario', type: mongoose.Schema.ObjectId }
+  tags: { type: [String], index: true },
+  owner: { ref: 'Usuario', type: mongoose.Schema.ObjectId, index: true }
 });
 
 anuncioSchema.statics.listarAnuncios = function (filtro, skip, limit, sort) {
