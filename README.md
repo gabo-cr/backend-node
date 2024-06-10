@@ -33,6 +33,19 @@ npm run init-db
 
 En la terminal, aparecerá un mensaje preguntando si desea continuar, ya que se borrarán todos los registros de la base de datos para volver a cargar los de prueba. Si desea continuar, basta con responder `si`. Si no desea continuar, basta con darle `enter`.
 
+También se debe crear un archivo `.env` en la raíz del proyecto de nodepop, al mismo nivel de package.json. Para mayor facilidad se puede copiar el archivo `.env.example` y cambiarle el nombre a `.env`. 
+
+```javascript
+MONGODB_URL=mongodb://127.0.0.1:27017/nodepop   // Es la URL para la conexión a tu base de datos MongoDB
+JWT_SECRET=kasfnkhiuadsopasdiasd                // Es un string aleatorio que servirá para generar el JWT
+```
+
+Para entender con mayor detalle cómo construir tu MONGODB_URL, se puede consultar la documentación de [Mongoose](https://mongoosejs.com/docs/connections.html). Y para crear un JWT_SECRET seguro, se puede utilizar el siguiente comando en la terminal: 
+
+```javascript
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
 ## Development
 
 Para correr nodepop en un entorno de desarrollo:
