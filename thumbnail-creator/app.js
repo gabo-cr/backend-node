@@ -20,7 +20,7 @@ responder.on('create-thumbnail', (req, done) => {
 	jimp.read(`${route}/${filename}`, (err, image) => {
 		if (err) throw err;
 		image
-			.resize(100, 100)
+			.scaleToFit(100, 100)
 			.write(`${newRoute}/${newFilename}`);
 	});
 
